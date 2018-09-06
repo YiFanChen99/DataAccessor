@@ -16,15 +16,15 @@ def load_json(file_path):
     Load data from json file.
     >>> result = load_json("./JsonAccessorDoctest.json")
     >>> result
-    {u'Fuji': {u'Id': 30, u'server': [u'JP', u'CN']}}
+    {'Fuji': {'Id': 30, 'server': ['JP', 'CN']}}
     >>> len(result['Fuji']['server'])
     2
     """
     with open(file_path) as json_data:
-        return json.loads(json_data.read().decode('utf-8-sig'))
+        return json.loads(json_data.read())
 
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod(report=True)
-    print "Complete doctest."
+    print("Complete doctest.")

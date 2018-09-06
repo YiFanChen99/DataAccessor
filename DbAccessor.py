@@ -46,10 +46,7 @@ class DbAccessor(object):
             int(datum)
             return str(datum)
         except (ValueError, AttributeError):  # 為字串資料時
-            if type(datum) is unicode:
-                return '\"' + DbAccessor._convert_to_str(datum) + '\"'
-            else:
-                return '\"' + datum + '\"'
+            return '\"' + DbAccessor._convert_to_str(datum) + '\"'
 
     @staticmethod
     def _convert_data_to_insert_query(*data):
@@ -70,13 +67,13 @@ class DbAccessor(object):
         if value is None:
             return ''
         else:
-            return value.encode('utf-8')
+            return value
 
 
 def print_records(records):
     """ For debugging """
     for row in records:
-        print row
+        print(row)
 
 
 class _DbAccessorTest(unittest.TestCase):
