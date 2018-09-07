@@ -11,6 +11,11 @@ class BaseModel(Model):
     class Meta:
         database = db
 
+    @classmethod
+    def get_column_names(cls):
+        meta_data = db.get_columns(cls.__name__)
+        return [datum.name for datum in meta_data]
+
 
 class _MockFlesh(BaseModel):
     date = DateField(default=datetime.datetime.now)
@@ -45,6 +50,9 @@ class _BaseModelTest(unittest.TestCase):
 
         self.assertEqual(2, _MockFlesh.select().where(
             (_MockFlesh.count == 0.1) | (_MockFlesh.date == "2018-08-21")).count())
+
+    def test_get_columns_name(self):
+        self.assertEqual(['id', 'date', 'count'], _MockFlesh.get_column_names())
 
 
 if __name__ == "__main__":
