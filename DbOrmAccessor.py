@@ -20,6 +20,16 @@ class BaseModel(Model):
     def atomic(cls):
         return db.atomic()
 
+    @classmethod
+    def create(cls, **kwargs):
+        """
+        Delegate create with IntegrityError wrapped.
+        """
+        try:
+            return super().create(**kwargs)
+        except IntegrityError as ex:
+            raise ValueError("IntegrityError") from ex
+
 
 class _MockFlesh(BaseModel):
     date = DateField(default=datetime.datetime.now)
