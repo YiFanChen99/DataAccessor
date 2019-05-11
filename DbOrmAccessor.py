@@ -16,6 +16,10 @@ class BaseModel(Model):
         meta_data = db.get_columns(cls.__name__)
         return [datum.name for datum in meta_data]
 
+    @classmethod
+    def atomic(cls):
+        return db.atomic()
+
 
 class _MockFlesh(BaseModel):
     date = DateField(default=datetime.datetime.now)
