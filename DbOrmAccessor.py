@@ -31,6 +31,26 @@ class BaseModel(Model):
             raise ValueError("IntegrityError") from ex
 
 
+class SimpleModelMap(object):
+    def __init__(self, accessor):
+        if accessor is None:
+            raise TypeError
+
+        self._accessor = accessor
+        self.map = {record.id: record for record in accessor.select()}
+
+    def get_record(self, record_or_id):
+        if isinstance(record_or_id, self._accessor):
+            return record_or_id
+        elif isinstance(record_or_id, int):
+            return self.map[record_or_id]
+        else:
+            raise TypeError
+
+    def __repr__(self):
+        return repr(self.map)
+
+
 class _MockFlesh(BaseModel):
     date = DateField(default=datetime.datetime.now)
     count = FloatField(default=1.0)
