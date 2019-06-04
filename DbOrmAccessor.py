@@ -30,6 +30,12 @@ class BaseModel(Model):
         except IntegrityError as ex:
             raise ValueError("IntegrityError") from ex
 
+    def __eq__(self, other):
+        if isinstance(other, int):
+            return self.id == other
+        else:
+            return super().__eq__(other)
+
 
 class SimpleModelMap(object):
     def __init__(self, accessor):
